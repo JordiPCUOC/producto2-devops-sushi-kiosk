@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{.Title}}</title>
+  <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-badge">🍣</div>
+      <div>
+        <h1>{{.Title}}</h1>
+        <p>{{.Message}}</p>
+      </div>
+    </div>
+
+    <div class="cart-pill">
+      <span>🛒</span>
+      <span id="cart-count">0</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-text">
+        <span class="tag">Pedido rápido · Diseño tipo kiosk</span>
+        <h2>{{.Subtitle}}</h2>
+        <p>
+          Elige tus piezas favoritas, añade al carrito y simula un pedido real
+          desde una interfaz moderna y visual.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#menu" class="btn btn-primary">Ver menú</a>
+          <button class="btn btn-secondary" id="scroll-cart-btn">Ir al carrito</button>
+        </div>
+
+        <div class="hero-highlights">
+          <div class="highlight-card">
+            <strong>10</strong>
+            <span>Productos</span>
+          </div>
+          <div class="highlight-card">
+            <strong>5</strong>
+            <span>Categorías</span>
+          </div>
+          <div class="highlight-card">
+            <strong>100%</strong>
+            <span>Hecho con Go</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-image-card">
+        <img src="/static/img/sushi-hero.png" alt="Sushi principal" class="hero-image" />
+      </div>
+    </section>
+
+    <section id="menu" class="menu-section">
+      <div class="section-header">
+        <div>
+          <span class="section-tag">Menú interactivo</span>
+          <h3>Nuestros productos</h3>
+        </div>
+
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="nigiri">Nigiri</button>
+          <button class="filter-btn" data-filter="maki">Maki</button>
+          <button class="filter-btn" data-filter="combo">Combos</button>
+          <button class="filter-btn" data-filter="postre">Postres</button>
+          <button class="filter-btn" data-filter="bebida">Bebidas</button>
+        </div>
+      </div>
+
+      <div class="content-grid">
+        <section class="products-grid">
+          {{range .Products}}
+          <article class="product-card" data-category="{{.Category}}">
+            <div class="product-top">
+           <img src="{{.Image}}" alt="{{.Name}}" class="product-image">
+             <span class="product-category">{{.Category}}</span>
+            </div>
+
+            <h4>{{.Name}}</h4>
+            <p>{{.Description}}</p>
+
+            <div class="product-footer">
+              <span class="price">{{printf "%.2f" .Price}} €</span>
+              <button
+                class="add-btn"
+                data-id="{{.ID}}"
+                data-name="{{.Name}}"
+                data-price="{{printf "%.2f" .Price}}">
+                Añadir
+              </button>
+            </div>
+          </article>
+          {{end}}
+        </section>
+
+        <aside class="cart-panel" id="cart-panel">
+          <div class="cart-header">
+            <h3>Tu pedido</h3>
+            <p>Revisa tus productos antes de finalizar.</p>
+          </div>
+
+          <div id="cart-items" class="cart-items">
+            <div class="empty-cart">
+              <div class="empty-icon">🧾</div>
+              <p>Tu carrito está vacío.</p>
+              <span>Añade productos para empezar tu pedido.</span>
+            </div>
+          </div>
+
+          <div class="cart-summary">
+            <div class="summary-row">
+              <span>Productos</span>
+              <strong id="items-total">0</strong>
+            </div>
+            <div class="summary-row total-row">
+              <span>Total</span>
+              <strong id="cart-total">0.00 €</strong>
+            </div>
+
+            <button id="checkout-btn" class="btn btn-primary btn-full">
+              Finalizar pedido
+            </button>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal hidden" id="checkout-modal">
+    <div class="modal-box">
+      <h3>Resumen del pedido</h3>
+      <div id="order-summary"></div>
+
+      <div class="modal-total">
+        <span>Total final:</span>
+        <strong id="modal-total-price">0.00 €</strong>
+      </div>
+
+      <div class="modal-actions">
+        <button id="close-modal-btn" class="btn btn-secondary">Cerrar</button>
+        <button id="confirm-order-btn" class="btn btn-primary">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
