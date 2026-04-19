@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mi-web-deployment
+  labels:
+    app: mi-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mi-web
+  template:
+    metadata:
+      labels:
+        app: mi-web
+    spec:
+      containers:
+        - name: mi-web
+          image: mi-web-uoc:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
